@@ -1,0 +1,8 @@
+node_modules/
+uploads/
+.env
+.env.*
+*.pem
+server.js.backup
+test-photo.jpg
+.DS_Store
