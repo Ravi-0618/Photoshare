@@ -10,7 +10,12 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.967.0",
     "@aws-sdk/s3-request-presigner": "^3.967.0",
+    "aws-jwt-verify": "^5.2.1",
     "express": "^4.21.2",
-    "multer": "^2.4.0"
+    "multer": "^2.4.0",
+    "oidc-client-ts": "^3.5.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2"
   }
 }

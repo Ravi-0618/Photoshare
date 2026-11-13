@@ -6,3 +6,4 @@ uploads/
 server.js.backup
 test-photo.jpg
 .DS_Store
+*.before-cognito

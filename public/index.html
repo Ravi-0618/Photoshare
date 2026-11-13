@@ -7,10 +7,18 @@
   <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
-  <header><div class="brand">☁ PhotoShare</div><span class="tag">Cloud Computing Project</span></header>
+  <header>
+  <div class="brand">☁ PhotoShare</div>
+
+  <div class="auth-controls">
+    <button id="loginBtn" type="button">Sign in</button>
+    <button id="logoutBtn" type="button" hidden>Log out</button>
+    <span id="userStatus">Not signed in</span>
+  </div>
+</header>
   <main>
     <section class="hero"><h1>Your memories, beautifully shared.</h1><p>Upload photos and explore your personal gallery.</p></section>
-    <section class="upload-panel">
+    <section class="upload-panel" id="uploadPanel" hidden>
       <h2>Upload a photo</h2>
       <form id="uploadForm"><label for="photo">Choose an image (JPG, PNG, WEBP, GIF, max 5 MB)</label><input type="file" name="photo" id="photo" accept="image/jpeg,image/png,image/webp,image/gif" required /><button type="submit">Upload photo</button></form>
       <p id="message" role="status"></p>
@@ -18,6 +26,6 @@
     <section><div class="gallery-heading"><h2>Photo gallery</h2><button class="secondary" id="refresh" type="button">Refresh</button></div><div id="gallery" class="gallery"></div></section>
   </main>
   <footer>PhotoShare · AWS Cloud Computing Project</footer>
-  <script src="/app.js"></script>
+  <script type="module" src="/app.js"></script>
 </body>
 </html>

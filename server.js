@@ -3,7 +3,7 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const crypto = require('crypto');
-
+const { CognitoJwtVerifier } = require('aws-jwt-verify');
 const {
   S3Client,
   PutObjectCommand,
@@ -18,7 +18,32 @@ const PORT = process.env.PORT || 3000;
 const BUCKET = 'photoshare-uta-project-2026';
 
 const s3 = new S3Client({ region: 'us-east-2' });
+const verifier = CognitoJwtVerifier.create({
+  userPoolId: 'us-east-2_1FDmivh02',
+  tokenUse: 'access',
+  clientId: '5a5vliehdl6ek4et6cqc9u1b7l'
+});
 
+async function requireAuth(req, res, next) {
+  const authorization = req.headers.authorization || '';
+  const match = /^Bearer (.+)$/i.exec(authorization);
+
+  if (!match) {
+    return res.status(401).json({
+      error: 'Please sign in to continue.'
+    });
+  }
+
+  try {
+    req.user = await verifier.verify(match[1]);
+    next();
+  } catch (err) {
+    console.error('Authentication failed:', err.message);
+    res.status(401).json({
+      error: 'Invalid or expired login session.'
+    });
+  }
+}
 const types = new Map([
   ['image/jpeg', '.jpg'],
   ['image/png', '.png'],
@@ -41,7 +66,7 @@ app.get('/api/health', (_req, res) => {
 });
 
 // List photos stored in S3
-app.get('/api/photos', async (_req, res, next) => {
+app.get('/api/photos', requireAuth,  async (_req, res, next) => {
   try {
     const photos = [];
     let token;
@@ -89,7 +114,7 @@ app.get('/api/photos', async (_req, res, next) => {
 });
 
 // Upload photos directly to S3
-app.post('/api/photos', upload.single('photo'), async (req, res, next) => {
+app.post('/api/photos', requireAuth, upload.single('photo'), async (req, res, next) => {
   try {
     if (!req.file) {
       return res.status(400).json({
