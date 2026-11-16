@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
+  <meta name="referrer" content="no-referrer">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>PhotoShare | Your Cloud Gallery</title>
   <link rel="stylesheet" href="/style.css" />
@@ -18,14 +19,142 @@
 </header>
   <main>
     <section class="hero"><h1>Your memories, beautifully shared.</h1><p>Upload photos and explore your personal gallery.</p></section>
+<section class="room-panel" id="roomPanel" hidden>
+  <h2>Private Photo Sharing Room</h2>
+  <p>Create a private room to share photos with your friends.</p>
+
+  <div class="room-actions">
+  <button id="createRoomBtn" type="button">
+    Create Room
+  </button>
+
+  <button id="joinRoomBtn" type="button">
+    Join Room
+  </button>
+</div>
+
+<div id="joinRoomPanel" hidden>
+  <h3>Join an Existing Room</h3>
+  <p>Paste the invitation link shared by the room creator.</p>
+
+  <form id="joinRoomForm">
+    <label for="inviteLink">Invitation Link</label>
+
+    <input
+      type="url"
+      id="inviteLink"
+      placeholder="Paste invitation link here"
+      required
+    />
+
+    <button type="submit">
+      Join Private Room
+    </button>
+  </form>
+
+  <p id="joinRoomMessage" role="status"></p>
+</div>
+
+<p id="roomMessage" role="status"></p>
+
+  <div id="roomDetails" hidden>
+    <h3>Room Created!</h3>
+
+    <p>
+      <strong>Room ID:</strong>
+      <span id="roomId"></span>
+    </p>
+
+    <p>
+      <strong>Expires:</strong>
+      <span id="roomExpires"></span>
+    </p>
+<button id="copyInviteBtn" type="button">
+  Copy Invitation Link
+</button>
+
+<p id="copyInviteMessage" role="status"></p>
+  </div>
+</section>
     <section class="upload-panel" id="uploadPanel" hidden>
-      <h2>Upload a photo</h2>
-      <form id="uploadForm"><label for="photo">Choose an image (JPG, PNG, WEBP, GIF, max 5 MB)</label><input type="file" name="photo" id="photo" accept="image/jpeg,image/png,image/webp,image/gif" required /><button type="submit">Upload photo</button></form>
-      <p id="message" role="status"></p>
-    </section>
+  <h2>Upload Photos</h2>
+
+  <form id="uploadForm">
+    <label for="photo">
+      Choose up to 10 photos (JPG, PNG, WEBP, GIF, HEIC, HEIF)
+    </label>
+
+    <input
+      type="file"
+      name="photo"
+      id="photo"
+      accept=".jpg,.jpeg,.png,.webp,.gif,.heic,.heif,image/jpeg,image/png,image/webp,image/gif,image/heic,image/heif"
+      multiple
+      required
+    />
+
+    <button type="submit">Upload Photos</button>
+  </form>
+
+  <p>Maximum 10 MB per photo.</p>
+  <p id="message" role="status"></p>
+</section>
     <section><div class="gallery-heading"><h2>Photo gallery</h2><button class="secondary" id="refresh" type="button">Refresh</button></div><div id="gallery" class="gallery"></div></section>
   </main>
+
+<!-- Mobile-friendly full-screen photo viewer -->
+<div
+  id="photoViewer"
+  class="photo-viewer"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Photo viewer"
+  hidden
+>
+  <div class="viewer-top">
+    <span id="viewerCounter">1 of 1</span>
+
+    <button
+      id="viewerClose"
+      type="button"
+      aria-label="Close photo viewer"
+    >
+      ✕
+    </button>
+  </div>
+
+  <div class="viewer-image-area">
+    <img id="viewerImage" alt="Selected photo" />
+  </div>
+
+  <div class="viewer-bottom">
+    <button
+      id="viewerPrev"
+      type="button"
+      aria-label="Previous photo"
+    >
+      ❮
+    </button>
+
+    <button
+      id="viewerDownload"
+      type="button"
+    >
+      ↓ Download
+    </button>
+
+    <button
+      id="viewerNext"
+      type="button"
+      aria-label="Next photo"
+    >
+      ❯
+    </button>
+  </div>
+</div>
+
   <footer>PhotoShare · AWS Cloud Computing Project</footer>
-  <script type="module" src="/app.js"></script>
+
+<script type="module" src="/app.js"></script>
 </body>
 </html>
